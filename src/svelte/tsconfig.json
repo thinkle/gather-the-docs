@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/svelte",
+    "types" : ["svelte","node","google-apps-script-run-ts-mocks"]
+    // Add any other specific compiler options for svelte here
+  },
+  "include": ["*.svelte", "*.ts", "*.js","types/*.d.ts"]
+  
+}
