@@ -3,7 +3,8 @@
   import { onMount } from "svelte";
   import { GoogleAppsScript } from "./clientApi";
   import type { Document } from "../gas/slides/slidesAddOn";
-  import { Folder } from "../gas/copier";
+  import type { Folder } from "../gas/copier";
+  import type { ProcessUpdate } from "gas-long-process-poller";
   let presentation: Document;
   let targetFolder: Folder;
   onMount(async () => {
@@ -24,12 +25,19 @@
     newUrl: string;
     link: DriveLink;
   }[];
+  let copyStatus: ProcessUpdate;
   async function doCopy() {
     copying = true;
+    let updaterInterval = setInterval(async () => {
+      copyStatus = await GoogleAppsScript.getFunctionStatus(
+        "copyLinksInPresentation"
+      );
+    }, 500);
     results = await GoogleAppsScript.copyLinksInPresentation(
       presentation.id,
       targetFolder.id
     );
+    clearInterval(updaterInterval);
     copying = false;
   }
 </script>
@@ -60,6 +68,18 @@
     The effect will be making an archival copy of everything linked in the
     slideshow!
   </p>
+  {#if copyStatus}
+    <h2>{copyStatus.name}</h2>
+    <p>{copyStatus.description}</p>
+    {#each copyStatus.actions as action}
+      <br />{action.name}: {action.description}
+      <br />{action.startTime}-{action.endTime}
+      <br />{action.status}
+      {#if action.total}
+        <br />{action.current}/{action.total}
+      {/if}
+    {/each}
+  {/if}
   <button disabled={copying} on:click={doCopy}
     >Let's copy those documents!</button
   >

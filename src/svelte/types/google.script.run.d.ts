@@ -7,6 +7,7 @@ declare namespace google.script {
       copyLinksInPresentation(presentationId: string, targetFolderId: string): void;
   getActivePresentation(): void;
   getActiveUserEmail(): void;
+  getFunctionStatus(fname: string): void;
   getAddOnEnvironment(): void;
   createFolderForDocument(id: string, name: string, parentId: string): void;
   getFolderForDocument(id: string): void;

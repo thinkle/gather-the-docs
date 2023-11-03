@@ -28,6 +28,15 @@ export const GoogleAppsScript = {
       });
     },
 
+     getFunctionStatus(fname: string): Promise<import("../../../../../Projects/gas-long-process-poller/dist/status").ProcessUpdate> {
+      return new Promise((resolve, reject) => {
+        google.script.run
+          .withSuccessHandler((result: import("../../../../../Projects/gas-long-process-poller/dist/status").ProcessUpdate) => resolve(result))
+          .withFailureHandler((error: any) => reject(error))
+          .getFunctionStatus(fname);
+      });
+    },
+
      getAddOnEnvironment(): Promise<"Slides" | "Docs" | "Sheets" | "Unknown"> {
       return new Promise((resolve, reject) => {
         google.script.run

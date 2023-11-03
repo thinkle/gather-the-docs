@@ -8,7 +8,7 @@ export { copyLinksInPresentation } from "./slides/slidesAddOn";
 export { getActivePresentation } from "./slides/slidesAddOn";
 
 export { getActiveUserEmail } from "./copier";
-
+export { getFunctionStatus } from "gas-long-process-poller";
 export { getAddOnEnvironment } from "./addOn";
 
 export {

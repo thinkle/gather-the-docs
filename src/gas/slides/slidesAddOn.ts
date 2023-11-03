@@ -2,6 +2,7 @@ import type { AddOnInterface } from "../addOn";
 import { Folder, copyFile } from "../copier";
 import { harvestLinksFromActivePresentation } from "./harvestLinksSlides";
 import type { DriveLink } from "../util/links";
+import { ProcessUpdater } from "gas-long-process-poller";
 export const slidesAddOn: AddOnInterface = {
   initUi() {
     return SlidesApp.getUi();
@@ -13,9 +14,6 @@ export const slidesAddOn: AddOnInterface = {
   },
 };
 
-// First version: we'll need to fix this to be
-// more asynchronous and allow updates as to progress
-// and picking up after interruption...
 export function copyLinksInPresentation(
   presentationId: string,
   targetFolderId: string
@@ -23,7 +21,25 @@ export function copyLinksInPresentation(
   link: DriveLink;
   newUrl: string;
 }[] {
+  let updater = new ProcessUpdater("copyLinksInPresentation", {
+    name: "Copy Links in Presentation",
+    description: "Copying all links in a presentation to target folder",
+    status: "running",
+  });
+  let linkAction = updater.addAction({
+    name: "Finding Links",
+    description: "Finding links in presentation",
+  });
   let links = harvestLinksFromActivePresentation();
+  linkAction.complete({
+    description: `Found ${links.length} links`,
+  });
+  let copyAction = updater.addAction({
+    name: "Copying links",
+    total: links.length,
+    current: 0,
+    description: "Copying links to target folder",
+  });
   let results: { link: DriveLink; newUrl: string }[] = [];
   for (let l of links) {
     let copy = copyFile(l.id, targetFolderId);
@@ -32,7 +48,10 @@ export function copyLinksInPresentation(
       link: l,
       newUrl: copy.getUrl(),
     });
+    copyAction.action.current++;
+    updater.doUpdate();
   }
+  updater.completeProcess();
   return results;
 }
 

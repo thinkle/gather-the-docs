@@ -34,3 +34,7 @@ export function copyLinksInPresentation(presentationId: string, targetFolderId: 
 export function getActivePresentation(): import("/Users/thinkle/BackedUpProjects/gas/gather-the-docs/src/gas/slides/slidesAddOn").Document {
   return null; // TODO: Replace with mock return value of type import("/Users/thinkle/BackedUpProjects/gas/gather-the-docs/src/gas/slides/slidesAddOn").Document
 }
+
+export function getFunctionStatus(fname: string): import("/Users/thinkle/Projects/gas-long-process-poller/dist/status").ProcessUpdate {
+  return null; // TODO: Replace with mock return value of type import("/Users/thinkle/Projects/gas-long-process-poller/dist/status").ProcessUpdate
+}

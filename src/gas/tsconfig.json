@@ -2,9 +2,8 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/gas",
-    "target": "ES2018"
-    // Add any other specific compiler options for gas here
+    "target": "ES2018",
+    "moduleResolution": "node",
   },
-  "include": ["*.ts", "util/types.ts"]
+  "include": ["*.ts", "util/types.ts","gas-long-process-poller"]
 }
-``
