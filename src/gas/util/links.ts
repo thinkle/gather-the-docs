@@ -11,6 +11,7 @@ export type Metadata = {
 export type Link = {
   url: string;
   metadata: Metadata;
+  changeUrl: (url) => void;
 };
 
 export type DriveLink = {
@@ -18,6 +19,7 @@ export type DriveLink = {
   id: string;
   accessible: boolean;
   mimetype?: string;
+  changeUrl: (url) => void;
   thumbnail?: GoogleAppsScript.Base.Blob;
   title?: string;
   origin: Metadata;
@@ -33,6 +35,7 @@ export function getDriveLinks(links: Link[]): DriveLink[] {
       } catch (err) {
         console.log("Unable to access ", driveFile);
         driveLinks.push({
+          changeUrl: link.changeUrl,
           url: link.url,
           id: linkedFileId,
           accessible: false,
@@ -43,6 +46,7 @@ export function getDriveLinks(links: Link[]): DriveLink[] {
       if (driveFile) {
         let mimetype = driveFile.getMimeType();
         driveLinks.push({
+          changeUrl: link.changeUrl,
           url: link.url,
           id: linkedFileId,
           accessible: true,
@@ -58,6 +62,9 @@ export function getDriveLinks(links: Link[]): DriveLink[] {
 }
 
 function isGoogleDriveLink(url: string): boolean {
+  if (!url) {
+    return false;
+  }
   const patterns = [
     "drive.google.com",
     "docs.google.com",

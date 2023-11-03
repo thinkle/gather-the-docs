@@ -4,9 +4,13 @@ declare namespace google.script {
       withFailureHandler(callback: (error: Error, object?: any) => void): this;
       withSuccessHandler(callback: (value: any, object?: any) => void): this;
       withUserObject(object: Object): this;
-      getActiveUserEmail(): void;
-  testMe(number: number): void;
-  foo(s: string): void
+      copyLinksInPresentation(presentationId: string, targetFolderId: string): void;
+  getActivePresentation(): void;
+  getActiveUserEmail(): void;
+  getAddOnEnvironment(): void;
+  createFolderForDocument(id: string, name: string, parentId: string): void;
+  getFolderForDocument(id: string): void;
+  setFolderForDocument(id: any, folderId: any): void
   }
   const run : GoogleScriptRun;
 

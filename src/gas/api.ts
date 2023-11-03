@@ -3,14 +3,16 @@ google.script.run here -- this will allow our type
 definition magic to work, so in your svelte side code
 you get clean autocomplete for google.script.run */
 
-export function getActiveUserEmail() {
-  const user = Session.getActiveUser();
-  return user.getEmail();
-}
-export function testMe(number: number) {
-  return 113 * number;
-}
+export { copyLinksInPresentation } from "./slides/slidesAddOn";
 
-export function foo(s: string) {
-  return 7;
-}
+export { getActivePresentation } from "./slides/slidesAddOn";
+
+export { getActiveUserEmail } from "./copier";
+
+export { getAddOnEnvironment } from "./addOn";
+
+export {
+  createFolderForDocument,
+  getFolderForDocument,
+  setFolderForDocument,
+} from "./copier";

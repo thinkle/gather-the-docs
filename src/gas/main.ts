@@ -1,5 +1,4 @@
 export {
-  serveSvelte,
   doGet,
   showDialog,
   showDocDialog,
@@ -8,5 +7,9 @@ export {
 } from "./serve";
 export * from "./api";
 
-export { harvestLinksFromActivePresentation } from "./slides/harvestLinksSlides";
+export {
+  harvestLinksFromActivePresentation,
+  harvestLinksFromPresentation,
+  testHarvest,
+} from "./slides/harvestLinksSlides";
 export { onOpen, onInstall } from "./addOn";

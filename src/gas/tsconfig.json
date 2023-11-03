@@ -2,7 +2,9 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/gas",
+    "target": "ES2018"
     // Add any other specific compiler options for gas here
   },
-  "include": ["*.ts"]
+  "include": ["*.ts", "util/types.ts"]
 }
+``

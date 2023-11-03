@@ -14,12 +14,29 @@ const universalMenu: UniversalMenuInterface = {
   },
 };
 
+export function getAddOnEnvironment():
+  | "Slides"
+  | "Docs"
+  | "Sheets"
+  | "Unknown" {
+  if (typeof SlidesApp !== "undefined" && SlidesApp.getUi()) {
+    return "Slides";
+  } else if (typeof DocumentApp !== "undefined" && DocumentApp.getUi()) {
+    return "Docs";
+  } else if (typeof SpreadsheetApp !== "undefined" && SpreadsheetApp.getUi()) {
+    return "Sheets";
+  } else {
+    return "Unknown";
+  }
+}
+
 export function onOpen(e: any): void {
   // Call all registered AddOn onOpen methods...
   let ui: GoogleAppsScript.Base.Ui;
   let menu: GoogleAppsScript.Base.Menu;
   let specificAddOn: AddOnInterface;
-  if (typeof SlidesApp !== "undefined" && SlidesApp.getUi()) {
+  let addOnType = getAddOnEnvironment();
+  if (addOnType == "Slides") {
     specificAddOn = slidesAddOn;
   }
   if (specificAddOn) {

@@ -1,15 +1,12 @@
 const IDX = "index.html"; // file name for svelte output
-
-export function serveSvelte() {
-  // fix me
-}
+const APPNAME = `Gather the Docs`;
 
 export function doGet(e) {
   return HtmlService.createHtmlOutputFromFile(IDX);
 }
 
 export function showDialog(
-  title: string,
+  title: string = APPNAME,
   modal = true,
   app:
     | typeof DocumentApp
