@@ -1,10 +1,4 @@
-export {
-  doGet,
-  showDialog,
-  showDocDialog,
-  showSlidesDialog,
-  showSpreadsheetDialog,
-} from "./serve";
+export { doGet, showDialog, showSidebar } from "./serve";
 export * from "./api";
 
 export {

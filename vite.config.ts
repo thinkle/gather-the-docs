@@ -10,5 +10,7 @@ export default defineConfig({
     emptyOutDir: true, // Ensure the output directory is empty
     // Inline HTML and CSS
     rollupOptions: {},
+    target: "es2020",
+    minify: false,
   },
 });

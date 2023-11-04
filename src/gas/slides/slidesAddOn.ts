@@ -10,7 +10,8 @@ export const slidesAddOn: AddOnInterface = {
   addToMenu(menu: GoogleAppsScript.Base.Menu) {
     menu.addItem("test harvest", "harvestLinksFromActivePresentation");
     menu.addItem("test copy", "testCopy");
-    menu.addItem("Gather the Docs!", "showSlidesDialog");
+    menu.addItem("Gather the Docs!", "showDialog");
+    menu.addItem("Gather the Docs (Side)!", "showSidebar");
   },
 };
 

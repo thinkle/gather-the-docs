@@ -42,6 +42,7 @@
   }
 </script>
 
+<h2>Slides Add-On</h2>
 {#if presentation}
   Good to see you. Let's help you export documents that we find inside of...
   {presentation.name}!
