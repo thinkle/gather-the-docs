@@ -44,4 +44,7 @@
 {/if}
 
 <style>
+  :global(h1) {
+    color: purple;
+  }
 </style>

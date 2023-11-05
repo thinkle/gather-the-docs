@@ -1,11 +1,19 @@
 /* Base styles for the iframe to mimic Google Apps Script appearance */
+body {
+  font-family: Roboto,
+    RobotoDraft,
+    Helvetica,
+    Arial,
+    sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
 iframe {
   border: none;
   margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
+  padding: 0;    
 }
 main {
   display: grid;
@@ -28,20 +36,40 @@ body {
 
 
 /* Styles specific to the sidebar */
-iframe.sidebar {
-  width: 300px;
+.sidebar {
+  width: 300px;  
   /* Typical width of a GAS sidebar */
   height: 100vh;
+  box-sizing: border-box;
   border-left: 1px solid #e0e0e0;  
   /* Adjust based on actual GAS styling */
 }
-
-iframe.dialog {  
-  width: 500px;
-  height: 300px;  
-  
+.sidebar > * {
+  width: 300px;
 }
-.dialog-container {
+.sidebar header {
+  background: #616161;
+  border: 1px solid #616161;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  height: 40px;
+  box-sizing: border-box;
+  padding: 10px 0 10px 12px;
+  position: relative;
+}
+.sidebar iframe {
+  height: calc(100vh - 40px);
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dialog {
   position: fixed;
   left: 50vw;
   top: 50vh;
@@ -53,10 +81,10 @@ iframe.dialog {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  
   border: 1px solid #e0e0e0;
   box-sizing: border-box;
+  width: 500px;
+  height: 400px;
 }
-.dialog-container::before {
-  content: "Dialog Title Here";
-  display: block;
+.dialog header {  
   max-width: calc(100% - 32px);
   min-width: 200px;
   color: #202124;
@@ -64,6 +92,15 @@ iframe.dialog {
   font-size: 22px;
   font-weight: 400;
   line-height: 28px;
+  text-align: center;
+  justify-content: center;
+}
+.dialog header .close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 8px;
+  cursor: pointer;
 }
 
 /* Styles specific to modals/dialogs */
