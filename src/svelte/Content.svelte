@@ -1,6 +1,7 @@
 <script lang="ts">
   import Counter from "./lib/Counter.svelte";
-  import { Block } from "google-apps-script-svelte-components";
+  import { copy_all } from "google-apps-script-svelte-components/dist/lib/icons/copy_all";
+  import { Block, Icon } from "google-apps-script-svelte-components";
   import type { AddOnContext } from "./lib/parseContext";
 
   export let context: AddOnContext;
@@ -20,8 +21,8 @@
     .getAddOnEnvironment();
 </script>
 
+<h1><Icon icon={copy_all.outlined} /> Gather the Docs!</h1>
 {#if !environment}
-  <h1>Vite + Svelte + AppsScript</h1>
   <Block>
     <Counter />
   </Block>
