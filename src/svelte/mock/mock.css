@@ -103,22 +103,4 @@ header {
   cursor: pointer;
 }
 
-/* Styles specific to modals/dialogs */
-iframe.modal {
- 
-}
 
-/* Additional styles per app */
-iframe.sheets {
-  /* Specific Sheets adjustments */
-}
-
-iframe.docs {
-  /* Specific Docs adjustments */
-}
-
-iframe.slides {
-  /* Specific Slides adjustments */
-}
-
-/* Include any other styles here */
