@@ -43,13 +43,14 @@ export function copyLinksInPresentation(
   presentationId: string,
   targetFolderId: string
 ): {
-  link: import("/Users/thinkle/BackedUpProjects/gas/gather-the-docs/src/gas/util/links").DriveLink;
+  link: import("../../gas/util/links").DriveLink;
   newUrl: string;
 }[] {
-  return null; // TODO: Replace with mock return value of type { link: import("/Users/thinkle/BackedUpProjects/gas/gather-the-docs/src/gas/util/links").DriveLink; newUrl: string; }[]
+  return null;
+  // TODO: Replace with mock return value of type { link: import("/Users/thinkle/BackedUpProjects/gas/gather-the-docs/src/gas/util/links").DriveLink; newUrl: string; }[]
 }
 
-export function getActivePresentation(): import("/Users/thinkle/BackedUpProjects/gas/gather-the-docs/src/gas/slides/slidesAddOn").Document {
+export function getActivePresentation(): import("../../gas/slides/slidesAddOn").Document {
   return {
     id: "1234",
     name: "Slides Presentation",
@@ -63,8 +64,22 @@ export function getActivePresentation(): import("/Users/thinkle/BackedUpProjects
 
 export function getFunctionStatus(
   fname: string
-): import("/Users/thinkle/Projects/gas-long-process-poller/dist/status").ProcessUpdate {
-  return null; // TODO: Replace with mock return value of type import("/Users/thinkle/Projects/gas-long-process-poller/dist/status").ProcessUpdate
+): import("gas-long-process-poller/dist/status").ProcessUpdate {
+  return {
+    func: fname,
+    name: "Copying files",
+    description: "Copying files from slide deck into folder",
+    status: "running",
+    actions: [
+      {
+        status: "running",
+        startTime: new Date().getTime(),
+        endTime: null,
+        name: "Copying thing",
+        description: "Copoying file...",
+      },
+    ],
+  };
 }
 
 export function hello(): string {

@@ -8,6 +8,7 @@ if (process.env.NODE_ENV === "development") {
   const VERBOSE = true;
   console.log("Running in development mode, verbose=", VERBOSE);
   globalThis.google = new GoogleMock(mockApi, VERBOSE);
+  globalThis.google.setDelayForFunction("copyLinksInPresentation", 15000);
 }
 app = new App({
   target: document.getElementById("app"),

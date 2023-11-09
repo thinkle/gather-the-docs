@@ -8,9 +8,8 @@
     Expander,
     Button,
   } from "google-apps-script-svelte-components";
-  import { folder } from "google-apps-script-svelte-components/dist/lib/icons/folder";
-  import { create_new_folder } from "google-apps-script-svelte-components/dist/lib/icons/create_new_folder";
-  //let folder = {};
+  import { folder } from "google-apps-script-svelte-components/dist/icons/folder";
+  import { create_new_folder } from "google-apps-script-svelte-components/dist/icons/create_new_folder";
 
   export let parentDoc: Document;
   export let targetFolder: Folder;

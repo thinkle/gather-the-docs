@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { copy_all } from "google-apps-script-svelte-components/dist/lib/icons/copy_all";
+  import { copy_all } from "google-apps-script-svelte-components/dist/icons/copy_all";
   import { Block, Icon } from "google-apps-script-svelte-components";
   import type { AddOnContext } from "./lib/parseContext";
 
