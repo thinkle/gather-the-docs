@@ -18,7 +18,7 @@
     "watch:all": "chokidar 'src/gas/api.ts' -c 'npm run build:all'",
     "build:all": "npm-run-all build-types build-mocks",
     "build-types": "add-google-run-types src/gas/api.ts src/svelte/types/google.script.run.d.ts",
-    "build-client-api" : "create-client-api src/gas/api.ts src/svelte/clientApi.ts",
+    "build-client-api": "create-client-api src/gas/api.ts src/svelte/clientApi.ts",
     "build-mocks": "add-google-run-mocks src/gas/api.ts src/svelte/mock/mockApi.ts"
   },
   "devDependencies": {
@@ -37,11 +37,12 @@
     "vite": "^4.4.5",
     "vite-plugin-singlefile": "^0.13.5"
   },
-  "dependencies": {
+  "dependencies": {    
     "@types/google-apps-script": "^1.0.76",
     "@types/google-apps-script-oauth2": "^38.0.2",
     "@types/google.picker": "^0.0.41",
-    "google-apps-script-run-ts-mocks": "^0.0.2"
-    
+    "google-apps-script-run-ts-mocks": "^0.0.3",
+    "google-apps-script-svelte-components": "^0.0.4",
+    "gas-long-process-poller":"../gas-long-process-poller"    
   }
 }
