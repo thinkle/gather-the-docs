@@ -67,7 +67,6 @@ export function getFunctionStatus(
   return null; // TODO: Replace with mock return value of type import("/Users/thinkle/Projects/gas-long-process-poller/dist/status").ProcessUpdate
 }
 
-
 export function hello(): string {
-  return "hello"
+  return "hello";
 }
