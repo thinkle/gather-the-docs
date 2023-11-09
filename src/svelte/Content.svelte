@@ -1,5 +1,4 @@
 <script lang="ts">
-  import Counter from "./lib/Counter.svelte";
   import { copy_all } from "google-apps-script-svelte-components/dist/lib/icons/copy_all";
   import { Block, Icon } from "google-apps-script-svelte-components";
   import type { AddOnContext } from "./lib/parseContext";
@@ -23,10 +22,6 @@
 
 <h1><Icon icon={copy_all.outlined} /> Gather the Docs!</h1>
 {#if !environment}
-  <Block>
-    <Counter />
-  </Block>
-
   {#if email}
     <Block>
       Why, hello there, {email}
