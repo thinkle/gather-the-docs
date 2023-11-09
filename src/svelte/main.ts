@@ -5,7 +5,9 @@ import { GoogleMock } from "google-apps-script-run-ts-mocks";
 
 let app;
 if (process.env.NODE_ENV === "development") {
-  globalThis.google = new GoogleMock(mockApi);
+  const VERBOSE = true;
+  console.log("Running in development mode, verbose=", VERBOSE);
+  globalThis.google = new GoogleMock(mockApi, VERBOSE);
 }
 app = new App({
   target: document.getElementById("app"),
