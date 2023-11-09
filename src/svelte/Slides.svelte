@@ -1,4 +1,6 @@
 <script lang="ts">
+  import FolderSelector from "./FolderSelector.svelte";
+
   import type { DriveLink } from "../gas/util/links";
   import { onMount } from "svelte";
   import { GoogleAppsScript } from "./clientApi";
@@ -8,18 +10,13 @@
   let presentation: Document;
   let targetFolder: Folder;
   onMount(async () => {
+    console.log("Slides.svelte: Fire off requests");
     presentation = await GoogleAppsScript.getActivePresentation();
-    newFolderName = presentation.name + " - Document Copies";
+    console.log("Slides.svelte: Got presentation", presentation);
     targetFolder = await GoogleAppsScript.getFolderForDocument(presentation.id);
+    console.log("Slides.svelte: getFolder=>", targetFolder);
   });
-  let newFolderName: string;
-  async function createFolder() {
-    targetFolder = await GoogleAppsScript.createFolderForDocument(
-      presentation.id,
-      newFolderName,
-      presentation.parent.id
-    );
-  }
+
   let copying;
   let results: {
     newUrl: string;
@@ -43,18 +40,7 @@
 </script>
 
 <h2>Slides Add-On</h2>
-{#if presentation}
-  Good to see you. Let's help you export documents that we find inside of...
-  {presentation.name}!
-{/if}
-{#if targetFolder}
-  We will be copying documents to {targetFolder.name}
-{:else}
-  First, let's create a folder for the copies we'll create. What shall we call
-  it?
-  <input bind:value={newFolderName} />
-  <button on:click={createFolder}>Create Folder</button>
-{/if}
+<FolderSelector parentDoc={presentation} bind:targetFolder />
 {#if targetFolder && !results}
   <p>Ok, clicking this button will do a few things...</p>
   <ul>
