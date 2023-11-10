@@ -67,6 +67,7 @@ export function copyLinksInPresentation(
     interval += 1000;
     setInterval(() => {
       updater.currentAction.current++;
+      updater.doUpdate();
     }, interval);
     interval += 500;
   }
@@ -135,8 +136,8 @@ let mockLinks: DriveLink[] = [
   },
   {
     url: "https://drive.google.com/file/d/3JZ2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2/view?usp=sharing",
-    id: "3JZ2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2",
-    title: "Mock Link 3",
+    id: "53JZ2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2",
+    title: "Mock Link 4",
     thumbnail: new Blob(),
     mimetype: "application/vnd.google-apps.drawing",
     changeUrl: (newUrl: string) => {},

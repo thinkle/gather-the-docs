@@ -28,11 +28,14 @@
       parentDoc.parent.id
     );
   }
+  export let expanded: boolean = false;
 </script>
 
-<Card>
-  <!-- <Expander> -->
-  <h3><Icon icon={folder.outlined} /> Folder</h3>
+<Expander {expanded}>
+  <h3 slot="label">
+    <Icon icon={(targetFolder && folder.filled) || folder.outlined} />
+    Choose a Folder
+  </h3>
   {#if !parentDoc}
     <!-- No parent doc, no folder selector -->
   {:else if targetFolder}
@@ -54,8 +57,7 @@
       </div>
     </div>
   {/if}
-  <!-- </Expander> -->
-</Card>
+</Expander>
 
 <style>
   input,
