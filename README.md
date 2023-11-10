@@ -1,4 +1,32 @@
-# Google Apps Script + Svelte
+# Gather the Docs
+
+We're an institution where people often gather links to important documents in another document. I consider this something of an anti-pattern, since the presence of links in e.g. a google doc is no guarantee that people you share that document with can access those links. However, it's a user-friendly pattern that people like for everything from gathering links to syllabi to students gathering portfolio. This add-on will aim to support users using this pattern in "gathering" all of the documents that they have linked in a document by either copying them or moving them.
+
+So, for example, if you have a google doc full of links to lesson plans, you could then organize you're entire curriculum by using this add-on to gather all of the lesson plans in a single place (potentially making copies if plans come from multiple locations).
+
+## Implementation Plan
+
+We're beginning with Google Slides, since we use that for student portfolios this year.
+
+## Steps:
+- Crawl slideshow for links
+- Present user list of those links with options to...
+  - Copy all  
+  - Select which ones to copy
+- Do the actual moving/gathering and give the user feedback on the process
+
+## Next steps:
+- Present user list of documents to copy or not copy
+- Modify "copy" method to take a list of files.
+- Allow selecting a folder instead of creating one (implement picker)
+- Allow moving documents instead of copying them.
+
+## Process
+- Oct. 2023 - Prototype where we copy all the links in the slideshow works.
+
+
+
+## About the Framework -  Google Apps Script + Svelte
 
 I love Google Apps Script for whipping together projects for our Google Apps School, and I love svelte development in Visual Studio, but before now, I haven't been able to  bring them together. This repo will give me a recipe for fixing that!
 
