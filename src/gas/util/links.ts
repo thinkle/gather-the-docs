@@ -1,5 +1,19 @@
 import { SlidesType, DocType, SpreadsheetType, SitesType } from "./types";
 
+export type CopyResult = {
+  link: DriveLink;
+  status: "success" | "error";
+  newUrl?: string;
+  error?: string;
+  action: "move" | "copy" | "ignore";
+};
+
+export type LinkToCopy = {
+  id: string;
+  action: "copy" | "move" | "ignore";
+  origin?: Metadata;
+};
+
 export type Metadata = {
   page?: number;
   originMimetype: string;

@@ -1,7 +1,7 @@
 import type { AddOnInterface } from "../addOn";
 import { Folder, copyFile } from "../copier";
 import { harvestLinksFromActivePresentation } from "./harvestLinksSlides";
-import type { DriveLink } from "../util/links";
+import type { CopyResult, DriveLink, LinkToCopy } from "../util/links";
 import { ProcessUpdater } from "gas-long-process-poller";
 export const slidesAddOn: AddOnInterface = {
   initUi() {
@@ -17,11 +17,10 @@ export const slidesAddOn: AddOnInterface = {
 
 export function copyLinksInPresentation(
   presentationId: string,
-  targetFolderId: string
-): {
-  link: DriveLink;
-  newUrl: string;
-}[] {
+  targetFolderId: string,
+  linksToCopy?: LinkToCopy[],
+  actionForUnknown: "move" | "copy" | "ignore" = "ignore"
+): CopyResult[] {
   let updater = new ProcessUpdater("copyLinksInPresentation", {
     name: "Copy Links in Presentation",
     description: "Copying all links in a presentation to target folder",
@@ -41,14 +40,54 @@ export function copyLinksInPresentation(
     current: 0,
     description: "Copying links to target folder",
   });
-  let results: { link: DriveLink; newUrl: string }[] = [];
+  let results: CopyResult[] = [];
   for (let l of links) {
-    let copy = copyFile(l.id, targetFolderId);
-    l.changeUrl(copy.getUrl());
-    results.push({
-      link: l,
-      newUrl: copy.getUrl(),
-    });
+    let action =
+      linksToCopy?.find((link) => link.id == l.id)?.action || actionForUnknown;
+    if (action === "copy") {
+      try {
+        let copy = copyFile(l.id, targetFolderId);
+        l.changeUrl(copy.getUrl());
+        results.push({
+          link: l,
+          newUrl: copy.getUrl(),
+          action: "copy",
+          status: "success",
+        });
+      } catch (e) {
+        results.push({
+          link: l,
+          action: "copy",
+          status: "error",
+          error: e.toString(),
+        });
+      }
+    } else if (action == "move") {
+      try {
+        DriveApp.getFileById(l.id).moveTo(
+          DriveApp.getFolderById(targetFolderId)
+        );
+        results.push({
+          link: l,
+          newUrl: l.url,
+          action: "move",
+          status: "success",
+        });
+      } catch (e) {
+        results.push({
+          link: l,
+          action: "move",
+          status: "error",
+          error: e.toString(),
+        });
+      }
+    } else if (action == "ignore") {
+      results.push({
+        link: l,
+        action: "ignore",
+        status: "success",
+      });
+    }
     copyAction.action.current++;
     updater.doUpdate();
   }

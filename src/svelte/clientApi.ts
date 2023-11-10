@@ -1,12 +1,21 @@
 
 export const GoogleAppsScript = {
   
-     copyLinksInPresentation(presentationId: string, targetFolderId: string): Promise<{ link: import("../gas/util/links").DriveLink; newUrl: string; }[]> {
+     harvestLinksFromActivePresentation(): Promise<import("../gas/util/links").DriveLink[]> {
       return new Promise((resolve, reject) => {
         google.script.run
-          .withSuccessHandler((result: { link: import("../gas/util/links").DriveLink; newUrl: string; }[]) => resolve(result))
+          .withSuccessHandler((result: import("../gas/util/links").DriveLink[]) => resolve(result))
           .withFailureHandler((error: any) => reject(error))
-          .copyLinksInPresentation(presentationId, targetFolderId);
+          .harvestLinksFromActivePresentation();
+      });
+    },
+
+     copyLinksInPresentation(presentationId: string, targetFolderId: string, linksToCopy?: import("/Users/thinkle/BackedUpProjects/gas/gather-the-docs/src/gas/util/links").LinkToCopy[], actionForUnknown?: "move" | "copy" | "ignore"): Promise<import("../gas/util/links").CopyResult[]> {
+      return new Promise((resolve, reject) => {
+        google.script.run
+          .withSuccessHandler((result: import("../gas/util/links").CopyResult[]) => resolve(result))
+          .withFailureHandler((error: any) => reject(error))
+          .copyLinksInPresentation(presentationId, targetFolderId, linksToCopy, actionForUnknown);
       });
     },
 
@@ -28,12 +37,12 @@ export const GoogleAppsScript = {
       });
     },
 
-     getFunctionStatus(fname: string): Promise<import("../../../../../Projects/gas-long-process-poller/dist/status").ProcessUpdate> {
+     getFunctionStatus(fname: string, propertiesService?: GoogleAppsScript.Properties.PropertiesService): Promise<import("../../../gas-long-process-poller/dist/status").ProcessUpdate> {
       return new Promise((resolve, reject) => {
         google.script.run
-          .withSuccessHandler((result: import("../../../../../Projects/gas-long-process-poller/dist/status").ProcessUpdate) => resolve(result))
+          .withSuccessHandler((result: import("../../../gas-long-process-poller/dist/status").ProcessUpdate) => resolve(result))
           .withFailureHandler((error: any) => reject(error))
-          .getFunctionStatus(fname);
+          .getFunctionStatus(fname, propertiesService);
       });
     },
 
@@ -46,7 +55,7 @@ export const GoogleAppsScript = {
       });
     },
 
-     createFolderForDocument(id: string, name: string, parentId: string): Promise<import("../gas/copier").Folder> {
+     createFolderForDocument(id: string, name: string, parentId?: string): Promise<import("../gas/copier").Folder> {
       return new Promise((resolve, reject) => {
         google.script.run
           .withSuccessHandler((result: import("../gas/copier").Folder) => resolve(result))

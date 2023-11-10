@@ -4,10 +4,11 @@ declare namespace google.script {
       withFailureHandler(callback: (error: Error, object?: any) => void): this;
       withSuccessHandler(callback: (value: any, object?: any) => void): this;
       withUserObject(object: Object): this;
-      copyLinksInPresentation(presentationId: string, targetFolderId: string): void;
+      harvestLinksFromActivePresentation(): void;
+  copyLinksInPresentation(presentationId: string, targetFolderId: string, linksToCopy: import("/Users/thinkle/BackedUpProjects/gas/gather-the-docs/src/gas/util/links").LinkToCopy[], actionForUnknown: "move" | "copy" | "ignore"): void;
   getActivePresentation(): void;
   getActiveUserEmail(): void;
-  getFunctionStatus(fname: string): void;
+  getFunctionStatus(fname: string, propertiesService: GoogleAppsScript.Properties.PropertiesService): void;
   getAddOnEnvironment(): void;
   createFolderForDocument(id: string, name: string, parentId: string): void;
   getFolderForDocument(id: string): void;

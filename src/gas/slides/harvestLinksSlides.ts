@@ -1,13 +1,13 @@
 import { DriveLink, getDriveLinks, Metadata, type Link } from "../util";
 import { SlidesType } from "../util/";
 
-export function harvestLinksFromActivePresentation() {
+export function harvestLinksFromActivePresentation(): DriveLink[] {
   let pres = SlidesApp.getActivePresentation();
   return harvestLinksFromPresentation(pres);
 }
 export function harvestLinksFromPresentation(
   pres: GoogleAppsScript.Slides.Presentation
-) {
+): DriveLink[] {
   let links: DriveLink[] = [];
   pres.getSlides().forEach((slide, idx) => {
     links = [...links, ...crawlSlideForLinks(slide, idx, pres)];
