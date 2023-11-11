@@ -57,22 +57,44 @@ export function copyLinksInPresentation(
     description: "Copying all links in a presentation to target folder",
     status: "running",
   });
-  updater.addAction({
+  let copyAction = updater.addAction({
     name: "Copying links",
     description: "Copying link",
     total: linksToCopy.length,
     current: 0,
+    metadata: {
+      copied: [],
+      moved: [],
+      ignored: [],
+    },
   });
-  for (let l of linksToCopy) {
+  let results: CopyResult[] = [];
+  let idx = 0;
+  linksToCopy.forEach((l, idx) => {
     interval += 1000;
-    setInterval(() => {
-      updater.currentAction.current++;
+    setTimeout(() => {
+      copyAction.action.current++;
+      if (l.action == "copy") {
+        copyAction.action.metadata.copied.push(l.id);
+      } else if (l.action == "move") {
+        copyAction.action.metadata.moved.push(l.id);
+      } else {
+        copyAction.action.metadata.ignored.push(l.id);
+      }
+      let driveLink = mockLinks.find((link) => link.id == l.id);
+      results.push({
+        link: driveLink,
+        status: "success",
+        action: l.action,
+        newUrl: l.action == "copy" && driveLink.url + "-copy-asera98asdfr",
+      });
       updater.doUpdate();
     }, interval);
-    interval += 500;
-  }
+    idx++;
+    interval += 1500;
+  });
   // Fix me
-  return [];
+  return results;
 }
 
 export function getActivePresentation(): import("../../gas/slides/slidesAddOn").Document {
