@@ -39,6 +39,11 @@ export function copyLinksInPresentation(
     total: links.length,
     current: 0,
     description: "Copying links to target folder",
+    metadata: {
+      copied: [],
+      moved: [],
+      ignored: [],
+    },
   });
   let results: CopyResult[] = [];
   for (let l of links) {
@@ -47,6 +52,7 @@ export function copyLinksInPresentation(
     if (action === "copy") {
       try {
         let copy = copyFile(l.id, targetFolderId);
+        copyAction.action.metadata.copied.push(copy.getId());
         l.changeUrl(copy.getUrl());
         results.push({
           link: l,
@@ -67,6 +73,7 @@ export function copyLinksInPresentation(
         DriveApp.getFileById(l.id).moveTo(
           DriveApp.getFolderById(targetFolderId)
         );
+        copyAction.action.metadata.moved.push(l.id);
         results.push({
           link: l,
           newUrl: l.url,
@@ -82,6 +89,7 @@ export function copyLinksInPresentation(
         });
       }
     } else if (action == "ignore") {
+      copyAction.action.metadata.ignored.push(l.id);
       results.push({
         link: l,
         action: "ignore",
