@@ -37,12 +37,12 @@ export const GoogleAppsScript = {
       });
     },
 
-     getFunctionStatus(fname: string, propertiesService?: GoogleAppsScript.Properties.PropertiesService): Promise<import("../../../gas-long-process-poller/dist/status").ProcessUpdate> {
+     getFunctionStatus(fname: string): Promise<import("../../../gas-long-process-poller/dist/status").ProcessUpdate> {
       return new Promise((resolve, reject) => {
         google.script.run
           .withSuccessHandler((result: import("../../../gas-long-process-poller/dist/status").ProcessUpdate) => resolve(result))
           .withFailureHandler((error: any) => reject(error))
-          .getFunctionStatus(fname, propertiesService);
+          .getFunctionStatus(fname);
       });
     },
 
