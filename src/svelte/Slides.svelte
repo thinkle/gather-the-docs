@@ -61,7 +61,6 @@
     clearInterval(updaterInterval);
     copying = false;
   }
-  $: console.log("Update copy status:", copyStatus);
 </script>
 
 <h2>Slides Add-On</h2>
@@ -146,8 +145,29 @@
   {#if results}
     <Card>
       <h2>Complete!</h2>
-      OMG we copied so many things! {results.length}
-      {JSON.stringify(results)}
+      <ul>
+        {#each results as result}
+          <li
+            class:moved={result.action == "move"}
+            class:copied={result.action == "copy"}
+            class:ignored={result.action == "ignore"}
+          >
+            {#if result.action == "copy"}
+              <Icon icon={file_copy.filled} />
+              Copied
+            {:else if result.action == "move"}
+              <Icon icon={drive_file_move.filled} />
+              Moved
+            {:else}
+              <Icon icon={done.filled} />
+              Ignored
+            {/if}
+            <a target="_blank" href={result.newUrl || result.link.url}
+              >{result.link.title}</a
+            >
+          </li>
+        {/each}
+      </ul>
     </Card>
   {/if}
 </section>
