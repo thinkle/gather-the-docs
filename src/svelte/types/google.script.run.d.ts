@@ -5,12 +5,12 @@ declare namespace google.script {
       withSuccessHandler(callback: (value: any, object?: any) => void): this;
       withUserObject(object: Object): this;
       harvestLinksFromActivePresentation(): void;
-  copyLinksInPresentation(presentationId: string, targetFolderId: string, linksToCopy: import("/Users/thinkle/BackedUpProjects/gas/gather-the-docs/src/gas/util/links").LinkToCopy[], actionForUnknown: "move" | "copy" | "ignore"): void;
+  copyLinksInPresentation(presentationId: string, targetFolderId: string, linksToCopy?: import("/Users/thinkle/BackedUpProjects/gas/gather-the-docs/src/gas/util/links").LinkToCopy[], actionForUnknown?: "move" | "copy" | "ignore"): void;
   getActivePresentation(): void;
   getActiveUserEmail(): void;
-  getFunctionStatus(fname: string, propertiesService: GoogleAppsScript.Properties.PropertiesService): void;
+  getFunctionStatus(fname: string): void;
   getAddOnEnvironment(): void;
-  createFolderForDocument(id: string, name: string, parentId: string): void;
+  createFolderForDocument(id: string, name: string, parentId?: string): void;
   getFolderForDocument(id: string): void;
   setFolderForDocument(id: any, folderId: any): void
   }
