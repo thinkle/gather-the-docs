@@ -1,8 +1,6 @@
 <script lang="ts">
   import FileList from "./FileList.svelte";
-
   import FolderSelector from "./FolderSelector.svelte";
-  import Select from "svelte-select";
   import {
     Button,
     Card,
@@ -88,6 +86,7 @@
       <FileList
         mode={((copying || results) && "copying") || "choose-action"}
         results={copyUpdates}
+        {targetFolder}
         {links}
         on:instructionsChange={(e) => (copyInstructions = e.detail)}
       >
