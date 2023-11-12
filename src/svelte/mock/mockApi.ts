@@ -1,4 +1,5 @@
 import { DriveLink, CopyResult, LinkToCopy } from "../../gas/util";
+import { thumb, mockFolders, mockLinks } from "./data";
 export {
   getFunctionStatus,
   interruptFunction,
@@ -113,65 +114,21 @@ export function hello(): string {
   return "hello";
 }
 
-let mockLinks: DriveLink[] = [
-  {
-    url: "https://drive.google.com/file/d/1JZ2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2/view?usp=sharing",
-    id: "1JZ2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2",
-    title: "Mock Link 1",
-    thumbnail: new Blob(),
-    mimetype: "application/vnd.google-apps.document",
-    changeUrl: (newUrl: string) => {},
-    accessible: true,
-    origin: {
-      originId: "123901820191234",
-      originMimetype: "application/vnd.google-apps.presentation",
-      text: "Mock Link 1",
-    },
-  },
-  {
-    url: "https://drive.google.com/file/d/2JZ2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2/view?usp=sharing",
-    id: "2JZ2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2",
-    title: "Mock Link 2",
-    thumbnail: new Blob(),
-    mimetype: "application/vnd.google-apps.spreadsheet",
-    changeUrl: (newUrl: string) => {},
-    accessible: true,
-    origin: {
-      originId: "123901820191234",
-      originMimetype: "application/vnd.google-apps.presentation",
-      text: "Amazing document!",
-    },
-  },
-  {
-    url: "https://drive.google.com/file/d/3JZ2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2/view?usp=sharing",
-    id: "3JZ2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2",
-    title: "Mock Link 3",
-    thumbnail: new Blob(),
-    mimetype: "application/vnd.google-apps.drawing",
-    changeUrl: (newUrl: string) => {},
-    accessible: true,
-    origin: {
-      originId: "123901820191234",
-      originMimetype: "application/vnd.google-apps.presentation",
-      text: "My 3rd Document",
-    },
-  },
-  {
-    url: "https://drive.google.com/file/d/3JZ2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2/view?usp=sharing",
-    id: "53JZ2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2Z2",
-    title: "Mock Link 4",
-    thumbnail: new Blob(),
-    mimetype: "application/vnd.google-apps.drawing",
-    changeUrl: (newUrl: string) => {},
-    accessible: false,
-    origin: {
-      originId: "123901820191234",
-      originMimetype: "application/vnd.google-apps.presentation",
-      text: "See Mock Doc # 4",
-    },
-  },
-];
-
 export function harvestLinksFromActivePresentation(): DriveLink[] {
   return mockLinks;
+}
+
+export function getFolderInfo(
+  folderId: string
+): import("/Users/thinkle/BackedUpProjects/gas/gather-the-docs/src/gas/copier").Folder {
+  let existing = mockFolders.find((f) => f.id == folderId);
+  if (existing) {
+    return existing;
+  } else {
+    return {
+      name: "Mock Folder",
+      id: folderId,
+      url: "https://drive.google.com/drive/folders/" + folderId,
+    };
+  }
 }
