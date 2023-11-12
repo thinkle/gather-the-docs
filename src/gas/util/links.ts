@@ -1,4 +1,5 @@
 import { SlidesType, DocType, SpreadsheetType, SitesType } from "./types";
+import type { Folder } from "../copier";
 
 export type CopyResult = {
   link: DriveLink;
@@ -34,9 +35,10 @@ export type DriveLink = {
   accessible: boolean;
   mimetype?: string;
   changeUrl: (url) => void;
-  thumbnail?: GoogleAppsScript.Base.Blob;
+  thumbnail?: string;
   title?: string;
   origin: Metadata;
+  parentId?: string;
 };
 
 export function getDriveLinks(links: Link[]): DriveLink[] {
@@ -58,21 +60,55 @@ export function getDriveLinks(links: Link[]): DriveLink[] {
         continue;
       }
       if (driveFile) {
-        let mimetype = driveFile.getMimeType();
+        let mimetype: string,
+          parentId: string,
+          thumbnail: string,
+          title: string;
+        try {
+          mimetype = driveFile.getMimeType();
+        } catch (err) {
+          mimetype = "unknown";
+        }
+        try {
+          parentId = driveFile.getParents().next().getId();
+        } catch (err) {
+          console.log("No parent for doc?", driveFile.getId());
+        }
+        try {
+          thumbnail = driveFile.getThumbnail().getDataAsString();
+        } catch (err) {
+          thumbnail = "";
+        }
+        try {
+          title = driveFile.getName();
+        } catch (err) {
+          title = "";
+        }
+
         driveLinks.push({
           changeUrl: link.changeUrl,
           url: link.url,
           id: linkedFileId,
           accessible: true,
           mimetype,
-          thumbnail: driveFile.getThumbnail(),
-          title: driveFile.getName(),
+          parentId,
+          thumbnail,
+          title,
           origin: { ...link.metadata },
         });
       }
     }
   }
   return driveLinks;
+}
+
+export function getFolderInfo(folderId: string): Folder {
+  let folder = DriveApp.getFolderById(folderId);
+  return {
+    id: folder.getId(),
+    name: folder.getName(),
+    url: folder.getUrl(),
+  };
 }
 
 function isGoogleDriveLink(url: string): boolean {

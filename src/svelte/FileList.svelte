@@ -1,19 +1,21 @@
 <script lang="ts">
-  import FolderSelector from "./FolderSelector.svelte";
+  import DriveFile from "./DriveFile.svelte";
   import Select from "svelte-select";
-  import { Button, Card, Icon } from "google-apps-script-svelte-components";
+  import { Card, Icon } from "google-apps-script-svelte-components";
   import { file_copy } from "google-apps-script-svelte-components/dist/icons/file_copy";
   import { drive_file_move } from "google-apps-script-svelte-components/dist/icons/drive_file_move";
   import { done } from "google-apps-script-svelte-components/dist/icons/done";
-  import { refresh } from "google-apps-script-svelte-components/dist/icons/refresh";
   import { scanner } from "google-apps-script-svelte-components/dist/icons/scanner";
-  import type { CopyResult, DriveLink, LinkToCopy } from "../gas/util/links";
+  import type { DriveLink, LinkToCopy } from "../gas/util/links";
   export let links: DriveLink[];
+  export let results: {
+    copied: string[];
+    moved: string[];
+    ignored: string[];
+  } | null = null;
+  export let mode: "choose-action" | "copying" = "choose-action";
   import { createEventDispatcher, onMount } from "svelte";
-  import { GoogleAppsScript } from "./clientApi";
-  import type { Document } from "../gas/slides/slidesAddOn";
-  import type { Folder } from "../gas/copier";
-  import type { ProcessUpdate } from "gas-long-process-poller";
+
   const dispatch = createEventDispatcher();
   let copyInstructionsById: { [key: string]: LinkToCopy } = {};
   let copyInstructions: LinkToCopy[] = [];
@@ -28,7 +30,9 @@
       }
     }
   }
-  $: makeDefaultInstructions(links);
+  $: if (mode == "choose-action") {
+    makeDefaultInstructions(links);
+  }
   $: {
     copyInstructions = Object.values(copyInstructionsById);
     dispatch("instructionsChange", copyInstructions);
@@ -48,30 +52,49 @@
   </slot>
   {#each links as link}
     {@const action = copyInstructionsById[link.id].action}
-    <div>
-      {#if action === "copy"}
-        <Icon icon={file_copy.outlined} />
-      {:else if action === "move"}
-        <Icon icon={drive_file_move.outlined} />
-      {:else if action === "ignore"}
-        <Icon icon={done.filled} />
+    <Card depth={3}>
+      <div class="row">
+        {#if action === "copy"}
+          <Icon icon={file_copy.outlined} />
+        {:else if action === "move"}
+          <Icon icon={drive_file_move.outlined} />
+        {:else if action === "ignore"}
+          <Icon icon={done.filled} />
+        {/if}
+        <DriveFile file={link} />
+      </div>
+      {#if mode == "choose-action"}
+        <Select
+          bind:value={copyInstructionsById[link.id].action}
+          items={[
+            { value: "copy", label: "Copy", icon: file_copy.outlined },
+            { value: "move", label: "Move", icon: drive_file_move.outlined },
+            { value: "ignore", label: "Ignore", icon: done.outlined },
+          ]}
+        >
+          <div slot="item" let:item>
+            <Icon icon={item.icon} />
+            <span>{item.label}</span>
+          </div>
+        </Select>
       {/if}
-      <a target="_blank" href={link.url}>{link.origin.text} => {link.title}</a>
-
-      <Select
-        bind:value={copyInstructionsById[link.id].action}
-        items={[
-          { value: "copy", label: "Copy", icon: file_copy.outlined },
-          { value: "move", label: "Move", icon: drive_file_move.outlined },
-          { value: "ignore", label: "Ignore", icon: done.outlined },
-        ]}
-      >
-        <div slot="item" let:item>
-          <Icon icon={item.icon} />
-          <span>{item.label}</span>
-        </div>
-      </Select>
-    </div>
+      {#if mode == "copying"}
+        {#if results}
+          {#if results.copied?.find((id) => link.id == id)}
+            <Icon icon={done.filled} /><Icon icon={file_copy.filled} />
+            Copied!
+          {:else if results.moved?.find((id) => link.id == id)}
+            <Icon icon={done.filled} /><Icon icon={drive_file_move.filled} />
+            Moved!
+          {:else if results.ignored?.find((id) => link.id == id)}
+            <Icon icon={done.filled} />
+            Ignored!
+          {:else}
+            ...
+          {/if}
+        {/if}
+      {/if}
+    </Card>
   {/each}
 </Card>
 
@@ -79,5 +102,9 @@
   .vscroll {
     height: 100%;
     overflow-y: auto;
+  }
+  .row {
+    display: flex;
+    gap: 8px;
   }
 </style>

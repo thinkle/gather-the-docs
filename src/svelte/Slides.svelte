@@ -45,13 +45,28 @@
     links = await GoogleAppsScript.harvestLinksFromActivePresentation();
     fetchingLinks = false;
   }
-
+  let copyUpdates;
   async function doCopy() {
     copying = true;
     let updaterInterval = setInterval(async () => {
       copyStatus = await GoogleAppsScript.getFunctionStatus(
         "copyLinksInPresentation"
       );
+      copyUpdates = {
+        copied: [],
+        ignored: [],
+        moved: [],
+      };
+      for (let action of [copyStatus, ...copyStatus.actions]) {
+        for (let prop in copyUpdates) {
+          if (action && action.metadata && action.metadata[prop]) {
+            copyUpdates[prop] = [
+              ...copyUpdates[prop],
+              ...action.metadata[prop],
+            ];
+          }
+        }
+      }
     }, 500);
     results = await GoogleAppsScript.copyLinksInPresentation(
       presentation.id,
@@ -71,6 +86,8 @@
     <Expander expanded={targetFolder}>
       <h3 slot="label">Documents in {presentation.name}</h3>
       <FileList
+        mode={((copying || results) && "copying") || "choose-action"}
+        results={copyUpdates}
         {links}
         on:instructionsChange={(e) => (copyInstructions = e.detail)}
       >

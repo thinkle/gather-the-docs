@@ -1,6 +1,7 @@
 export type Folder = {
   name: string;
   id: string;
+  url: string;
 };
 
 export function copyFile(id: string, targetFolderId: string) {
@@ -40,6 +41,7 @@ export function createFolderForDocument(
   return {
     id: folder.getId(),
     name: folder.getName(),
+    url: folder.getUrl(),
   };
 }
 
