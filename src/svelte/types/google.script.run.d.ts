@@ -4,7 +4,12 @@ declare namespace google.script {
       withFailureHandler(callback: (error: Error, object?: any) => void): this;
       withSuccessHandler(callback: (value: any, object?: any) => void): this;
       withUserObject(object: Object): this;
-      getFolderInfo(folderId: string): void;
+      getOAuthToken(): void;
+  getApiKey(): void;
+  onPickerCancel(): void;
+  onPickerComplete(id: string): void;
+  pickFolder(filetype?: "folder", title?: string): void;
+  getFolderInfo(folderId: string): void;
   harvestLinksFromActivePresentation(): void;
   copyLinksInPresentation(presentationId: string, targetFolderId: string, linksToCopy?: import("/Users/thinkle/BackedUpProjects/gas/gather-the-docs/src/gas/util/links").LinkToCopy[], actionForUnknown?: "move" | "copy" | "ignore"): void;
   getActivePresentation(): void;

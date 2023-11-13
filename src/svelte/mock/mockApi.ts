@@ -132,3 +132,32 @@ export function getFolderInfo(
     };
   }
 }
+
+
+export function getOAuthToken(): string {
+  return "hello"
+}
+
+export function getApiKey(): string {
+  return "hello"
+}
+
+export function showDialog(title?: string, modal?: boolean): void {
+  
+}
+
+export function showSidebar(): void {
+  
+}
+
+export function onPickerCancel(): void {
+  
+}
+
+export function onPickerComplete(id: string): void {
+  
+}
+
+export function pickFolder(filetype?: "folder", title?: string): void {
+  
+}

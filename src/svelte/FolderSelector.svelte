@@ -2,8 +2,11 @@
   import { GoogleAppsScript } from "./clientApi";
   import type { Document } from "../gas/slides/slidesAddOn";
   import type { Folder } from "../gas/copier";
+  import PickerLauncher from "./lib/PickerLauncher.svelte";
+  import { clear } from "google-apps-script-svelte-components/dist/icons/clear";
   import {
     Icon,
+    IconButton,
     Card,
     Expander,
     Button,
@@ -19,14 +22,18 @@
   $: if (!newFolderName && parentDoc?.name) {
     newFolderName = parentDoc.name + " Documents";
   }
-  $: console.log("FolderSelector got parentDoc", parentDoc);
-  $: console.log("Parent doc got target folder", targetFolder);
+
   async function createFolder() {
     targetFolder = await GoogleAppsScript.createFolderForDocument(
       parentDoc.id,
       newFolderName,
       parentDoc.parent.id
     );
+  }
+
+  async function selectFromId(id) {
+    console.log("Get folder with ID:", id);
+    targetFolder = await GoogleAppsScript.getFolderInfo(id);
   }
   export let expanded: boolean = false;
 </script>
@@ -43,6 +50,7 @@
       <Icon icon={folder.outlined} />
       {targetFolder.name}
     </div>
+    <IconButton icon={clear.outlined} on:click={() => (targetFolder = null)} />
   {:else}
     <div class="folder">
       <label>
@@ -56,6 +64,7 @@
         </Button>
       </div>
     </div>
+    <PickerLauncher onFolderSelected={(id) => selectFromId(id)} />
   {/if}
 </Expander>
 

@@ -2,7 +2,7 @@
   import { copy_all } from "google-apps-script-svelte-components/dist/icons/copy_all";
   import { Block, Icon } from "google-apps-script-svelte-components";
   import type { AddOnContext } from "./lib/parseContext";
-
+  import Picker from "./lib/Picker.svelte";
   export let context: AddOnContext;
   onMount(async () => {
     email = await GoogleAppsScript.getActiveUserEmail();
@@ -10,6 +10,7 @@
   });
   let email: string;
   let environment: "Slides" | "Docs" | "Sheets" | "Unknown" = context.addOn;
+  console.log("Loading App with context: ", context);
 
   import { GoogleAppsScript } from "./clientApi";
   import { onMount } from "svelte";
@@ -27,6 +28,8 @@
       Why, hello there, {email}
     </Block>
   {/if}
+{:else if context.params && context.params[0] === "picker"}
+  <Picker />
 {:else if environment === "Slides"}
   <Slides />
 {:else}
