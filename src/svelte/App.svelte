@@ -2,7 +2,7 @@
   import Content from "./Content.svelte";
   import { Sidebar } from "google-apps-script-svelte-components";
   import { parseContext } from "./lib/parseContext";
-  let contextString = `<? context ?>`;
+  let contextString = `<?= context ?>`;
   let context = parseContext(contextString);
   const isDialog = context.container == "dialog";
 </script>
