@@ -21,11 +21,8 @@
   let presentation: Document;
   let targetFolder: Folder;
   onMount(async () => {
-    console.log("Slides.svelte: Fire off requests");
     presentation = await GoogleAppsScript.getActivePresentation();
-    console.log("Slides.svelte: Got presentation", presentation);
     targetFolder = await GoogleAppsScript.getFolderForDocument(presentation.id);
-    console.log("Slides.svelte: getFolder=>", targetFolder);
     getLinks();
   });
 
@@ -36,7 +33,6 @@
   let fetchingLinks = false;
   let copyInstructions: LinkToCopy[] = [];
 
-  $: console.log("Instructions are:", copyInstructions);
   async function getLinks() {
     console.log("Fetch those links!");
     fetchingLinks = true;
