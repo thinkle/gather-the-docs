@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { Folder } from "../gas/copier";
   import DriveFile from "./DriveFile.svelte";
   import Select from "svelte-select";
   import { Card, Icon } from "google-apps-script-svelte-components";
@@ -8,7 +9,7 @@
   import { scanner } from "google-apps-script-svelte-components/dist/icons/scanner";
   import type { DriveLink, LinkToCopy } from "../gas/util/links";
   export let links: DriveLink[];
-  export let targetFolder: Folder;
+  export let targetFolder: Folder | null;
   export let results: {
     copied: string[];
     moved: string[];
@@ -16,7 +17,6 @@
   } | null = null;
   export let mode: "choose-action" | "copying" = "choose-action";
   import { createEventDispatcher, onMount } from "svelte";
-  import { Folder } from "../gas/copier";
 
   const dispatch = createEventDispatcher();
   let copyInstructionsById: { [key: string]: LinkToCopy } = {};
@@ -25,7 +25,7 @@
   function makeDefaultInstructions(links, targetFolder) {
     for (let l of links) {
       if (!copyInstructionsById[l.id]) {
-        if (l.parentId == targetFolder.id) {
+        if (l.parentId == targetFolder?.id) {
           copyInstructionsById[l.id] = {
             id: l.id,
             action: "ignore", // already in folder - ignore
