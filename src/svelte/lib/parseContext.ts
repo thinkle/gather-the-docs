@@ -9,6 +9,8 @@ export type AddOnContext = {
 };
 
 export function parseContext(context): AddOnContext {
+  console.log("parseContext called with", context);
+  context = context.replace(/^['"]|['"]$/g, "");
   if (context[0] == "<") {
     return DEFAULT_CONTEXT;
   }
@@ -23,5 +25,6 @@ export function parseContext(context): AddOnContext {
   if (rest.length > 1) {
     returnValue.params = rest.slice(1);
   }
+  console.log("parseContext returning", returnValue);
   return returnValue;
 }
